@@ -8,7 +8,7 @@ Some of these features include:
 - SDK compatibility methods
 
 ## Requirements
-- Android 6.0 Marshmallow or newer
+- Android 5.0 Lollipop or newer
 
 ## Class Reference
 
