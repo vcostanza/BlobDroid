@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Text colors -->
+    <color name="preference_title">#FFF</color>
+    <color name="preference_summary">#AAA</color>
+
+    <!-- Icon colors -->
+    <color name="preference_icon">#FFF</color>
+
+</resources>
