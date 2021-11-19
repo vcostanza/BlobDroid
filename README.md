@@ -8,7 +8,17 @@ Some of these features include:
 - SDK compatibility methods
 
 ## Requirements
-- Android 5.0 Lollipop or newer
+- Kotlin
+- Android 5.0 Lollipop or newer minimum SDK
+
+## Usage
+BlobDroid can be used in a Kotlin-based Android project as a submodule or an AAR
+(see [**Releases**](https://github.com/vcostanza/BlobDroid/releases/)).
+
+For use as a submodule simply execute the following command in the root of your project repo:  
+`git submodule add https://github.com/vcostanza/BlobDroid`
+
+For more info on submodules see the [**Git Guide**](https://git-scm.com/book/en/v2/Git-Tools-Submodules).
 
 ## Class Reference
 
