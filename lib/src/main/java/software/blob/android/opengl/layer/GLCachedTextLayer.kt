@@ -1,7 +1,7 @@
 package software.blob.android.opengl.layer
 
+import software.blob.android.compatibility.computeIfAbsentCompat
 import software.blob.android.opengl.drawable.GLTextRect
-import software.blob.android.compatibility.SDKCompat.computeIfAbsentCompat
 
 /**
  * Layer used for rendering 2D text
