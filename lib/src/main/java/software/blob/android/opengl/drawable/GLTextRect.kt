@@ -9,20 +9,17 @@ import kotlin.math.max
  */
 class GLTextRect(text: String = "") : GLShape(6) {
 
-    private var _width = 0f
-    private var _height = 0f
-    private var _invalid = true
-
-    // Used during redraws
-    private val paint = Paint(Paint.ANTI_ALIAS_FLAG).also { it.style = Paint.Style.FILL }
-    private val path = Path()
-    private val bounds = RectF()
+    /**
+     * The width of the text in pixels
+     */
+    var width: Float = 0f
+        private set
 
     /**
-     * The width and height of the text in pixels
+     * The height of the text in pixels
      */
-    val width: Float get() { return _width }
-    val height: Float get() { return _height }
+    var height: Float = 0f
+        private set
 
     /**
      * The text that is rendered
@@ -57,6 +54,14 @@ class GLTextRect(text: String = "") : GLShape(6) {
             }
         }
 
+    // Whether the text is invalid and needs to be rasterized again
+    private var _invalid = true
+
+    // Used during redraws
+    private val paint = Paint(Paint.ANTI_ALIAS_FLAG).also { it.style = Paint.Style.FILL }
+    private val path = Path()
+    private val bounds = RectF()
+
     override fun draw(shader: GLShader) {
         // Need to regenerate the texture
         if (_invalid) {
@@ -79,14 +84,14 @@ class GLTextRect(text: String = "") : GLShape(6) {
         path.computeBounds(bounds, false)
 
         // Set the size of the rectangle
-        _width = max(bounds.right, 1f)
-        _height = max(bounds.height(), 1f)
+        width = max(bounds.right, 1f)
+        height = max(bounds.height(), 1f)
         setVertices(floatArrayOf(
             0f, 0f,
-            _width, _height,
-            _width, 0f,
-            0f, _height,
-            _width, _height,
+            width, height,
+            width, 0f,
+            0f, height,
+            width, height,
             0f, 0f
         ))
 
@@ -100,9 +105,9 @@ class GLTextRect(text: String = "") : GLShape(6) {
         ))
 
         // Render the text to a bitmap using a canvas
-        val bmp = Bitmap.createBitmap(_width.toInt(), _height.toInt(), Bitmap.Config.ARGB_8888)
+        val bmp = Bitmap.createBitmap(width.toInt(), height.toInt(), Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bmp)
-        canvas.drawText(text, 0f, _height, paint)
+        canvas.drawText(text, 0f, height, paint)
 
         // Load the bitmap into a texture
         setTexture(bmp)
