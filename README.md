@@ -85,4 +85,4 @@ Basic implementation of `IntervalThread` that accepts a lambda in its constructo
 ### SDK Compatibility
 
 [**SDKCompat**](lib/src/main/java/software/blob/android/compatibility/SDKCompat.kt)  
-Defines several class-injected methods with the suffix `Compat` for making SDK cross compatibility easier
+Defines several extension functions with the suffix `Compat` for making SDK cross compatibility easier

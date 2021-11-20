@@ -7,7 +7,7 @@ import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.annotation.ColorRes
 
 /**
- * Various class method injections for working around minimum SDK requirements
+ * Various extension functions for working around minimum SDK requirements
  */
 @Suppress("deprecation")
 object SDKCompat {
