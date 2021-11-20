@@ -7,12 +7,10 @@ import kotlin.math.max
 /**
  * Text rendered in a rectangle
  */
-class GLTextRect(private var _text:String = "") : GLShape(6) {
+class GLTextRect(text: String = "") : GLShape(6) {
 
     private var _width = 0f
     private var _height = 0f
-    private var _textSize = 32f
-    private var _textColor = Color.WHITE
     private var _invalid = true
 
     // Used during redraws
@@ -29,38 +27,35 @@ class GLTextRect(private var _text:String = "") : GLShape(6) {
     /**
      * The text that is rendered
      */
-    var text: String get() {
-        return _text
-    } set(text) {
-        if (_text != text) {
-            _text = text
-            _invalid = true
+    var text = text
+        set(text) {
+            if (field != text) {
+                field = text
+                _invalid = true
+            }
         }
-    }
 
     /**
      * The text size in floating-point pixels
      */
-    var textSize: Float get() {
-        return _textSize
-    } set(size) {
-        if (_textSize != size) {
-            _textSize = size
-            _invalid = true
+    var textSize = 32f
+        set(size) {
+            if (field != size) {
+                field = size
+                _invalid = true
+            }
         }
-    }
 
     /**
      * The text color (ARGB integer)
      */
-    var textColor: Int get() {
-        return _textColor
-    } set(color) {
-        if (_textColor != color) {
-            _textColor = color
-            _invalid = true
+    var textColor = Color.WHITE
+        set(color) {
+            if (field != color) {
+                field = color
+                _invalid = true
+            }
         }
-    }
 
     override fun draw(shader: GLShader) {
         // Need to regenerate the texture
@@ -78,9 +73,8 @@ class GLTextRect(private var _text:String = "") : GLShape(6) {
      */
     private fun setupTexture() {
         // Get the bounds of the text
-        val text = _text
-        paint.textSize = _textSize
-        paint.color = _textColor
+        paint.textSize = textSize
+        paint.color = textColor
         paint.getTextPath(text, 0, text.length, 0f, 0f, path)
         path.computeBounds(bounds, false)
 

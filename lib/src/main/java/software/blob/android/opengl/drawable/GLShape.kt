@@ -18,11 +18,10 @@ open class GLShape(initialCapacity: Int = 10) : GLDrawable {
 
     // Basic parameters
     protected var vertices: FloatBuffer? = null
+    protected var vertexCount = 0
     var drawMode = GL_TRIANGLES
     var lineWidth = 0f
     var visible = true
-    private val _colorFlt = floatArrayOf(1f, 1f, 1f, 1f)
-    private var _colorInt = Color.WHITE
 
     // Texture parameters
     protected var texHandle: IntArray? = null
@@ -31,13 +30,31 @@ open class GLShape(initialCapacity: Int = 10) : GLDrawable {
     // Transformations
     protected val transformMatrix = FloatArray(16)
     protected var transformInvalid = true
-    private var _x = 0f
-    private var _y = 0f
-    private var _rot = 0f
-    private var _sx = 1f
-    private var _sy = 1f
+    var x = 0f
+        set(x) { field = changed(field, x) }
+    var y = 0f
+        set(y) { field = changed(field, y) }
+    var rotation = 0f
+        set(rot) { field = changed(field, rot) }
+    var scaleX = 1f
+        set(sx) { field = changed(field, sx) }
+    var scaleY = 1f
+        set(sy) { field = changed(field, sy) }
 
-    protected var vertexCount = 0
+    /**
+     * Set the color of the drawing
+     */
+    var color = Color.WHITE
+        set(value) {
+            if (field != value) {
+                field = value
+                _colorFlt[0] = Color.red(value) / 255f
+                _colorFlt[1] = Color.green(value) / 255f
+                _colorFlt[2] = Color.blue(value) / 255f
+                _colorFlt[3] = Color.alpha(value) / 255f
+            }
+        }
+    private val _colorFlt = floatArrayOf(1f, 1f, 1f, 1f)
 
     init {
         vertices = createFloatBuffer(initialCapacity)
@@ -102,22 +119,13 @@ open class GLShape(initialCapacity: Int = 10) : GLDrawable {
     }
 
     /**
-     * Transformation public variables
-     */
-    var x: Float get() { return _x } set(x) { _x = changed(_x, x) }
-    var y: Float get() { return _y } set(y) { _y = changed(_y, y) }
-    var rotation: Float get() { return _rot } set(rot) { _rot = changed(_rot, rot) }
-    var scaleX: Float get() { return _sx } set(sx) { _sx = changed(_sx, sx) }
-    var scaleY: Float get() { return _sy } set(sy) { _sy = changed(_sy, sy) }
-
-    /**
      * Translate the shape by X and Y amount
      * @param x X translation
      * @param y Y translation
      */
     fun translate(x: Float, y: Float) {
-        _x += x
-        _y += y
+        this.x += x
+        this.y += y
         transformInvalid = true
     }
 
@@ -126,7 +134,7 @@ open class GLShape(initialCapacity: Int = 10) : GLDrawable {
      * @param deg Degrees to rotate the shape
      */
     fun rotate(deg: Float) {
-        _rot += deg
+        this.rotation += deg
         transformInvalid = true
     }
 
@@ -136,24 +144,10 @@ open class GLShape(initialCapacity: Int = 10) : GLDrawable {
      * @param yScale Y scale
      */
     fun scale(xScale: Float, yScale: Float) {
-        _sx *= xScale
-        _sy *= yScale
+        this.scaleX *= xScale
+        this.scaleY *= yScale
         transformInvalid = true
     }
-
-    /**
-     * Set the color of the drawing
-     */
-    var color: Int get() { return _colorInt }
-        set(value) {
-            if (_colorInt != value) {
-                _colorInt = value
-                _colorFlt[0] = Color.red(color) / 255f
-                _colorFlt[1] = Color.green(color) / 255f
-                _colorFlt[2] = Color.blue(color) / 255f
-                _colorFlt[3] = Color.alpha(color) / 255f
-            }
-        }
 
     /**
      * Set the texture bitmap
@@ -202,9 +196,9 @@ open class GLShape(initialCapacity: Int = 10) : GLDrawable {
     protected fun applyTransform() {
         if (transformInvalid) {
             resetTransform()
-            Matrix.scaleM(transformMatrix, 0, _sx, _sy, 1f)
-            Matrix.rotateM(transformMatrix, 0, _rot, 0f, 0f, 1f)
-            Matrix.translateM(transformMatrix, 0, _x, _y, 0f)
+            Matrix.scaleM(transformMatrix, 0, scaleX, scaleY, 1f)
+            Matrix.rotateM(transformMatrix, 0, rotation, 0f, 0f, 1f)
+            Matrix.translateM(transformMatrix, 0, x, y, 0f)
             transformInvalid = false
         }
     }

@@ -6,15 +6,13 @@ package software.blob.android.collections
  */
 open class FIFOList<E>(capacity: Int) : ArrayList<E>(capacity) {
 
-    private var _capacity = capacity
-
     /**
      * The size limit of the list
      */
-    var capacity: Int get() { return _capacity }
+    var capacity = capacity
         set(value) {
-            if (_capacity != value) {
-                _capacity = value
+            if (field != value) {
+                field = value
                 trimToCapacity()
             }
         }
